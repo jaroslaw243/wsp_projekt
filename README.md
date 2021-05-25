@@ -1,1 +1,1 @@
-# wsp_projekt
+# Wybrane systemy programowania
