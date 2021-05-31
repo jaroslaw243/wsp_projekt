@@ -1,8 +1,14 @@
+setwd("C:/Users/jarek/PycharmProjects/wsp_projekt")
+
 # Load packages
 library(shiny)
 library(shinythemes)
 library(dplyr)
 library(readr)
+
+library(affy)
+
+abatch <- ReadAffy(filenames = c("data/CL2001031606AA.CEL"))
 
 # Load data
 trend_data <- read.csv("data/trend_data.csv")
@@ -46,16 +52,12 @@ ui <- fluidPage(theme = shinytheme("lumen"),
 
 # Define server function
 server <- function(input, output) {
-
-
-
-
   # Create scatterplot object the plotOutput function is expecting
   output$lineplot <- renderPlot({
     color <- "#434343"
     par(mar = c(4, 4, 1, 1))
-    plot(x = trend_data$date, y = trend_data$close, type = "l",
-         xlab = "Date", ylab = "Trend index", col = color, fg = color, col.lab = color, col.axis = color)
+    hist(abatch, main='Histogram w skali logarytmicznej dla nieznormalizowanych danych',
+     xlab='log(Ekspresja)', ylab='Liczebność')
     # Display only if smoother is checked
     if(input$smoother){
       smooth_curve <- lowess(x = as.numeric(trend_data$date), y = trend_data$close, f = input$f)
