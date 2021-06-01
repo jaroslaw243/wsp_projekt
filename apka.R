@@ -10,10 +10,6 @@ library(affy)
 
 abatch <- ReadAffy(filenames = c("data/CL2001031606AA.CEL"))
 
-# Load data
-trend_data <- read.csv("data/trend_data.csv")
-trend_description <- read.csv("data/trend_description.csv")
-
 # Define UI
 ui <- fluidPage(theme = shinytheme("lumen"),
   titlePanel("Google Trend Index"),
@@ -22,7 +18,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),
 
       # Select type of trend to plot
       selectInput(inputId = "type", label = strong("Trend index"),
-                  choices = c("Travel", "Jajco"),
+                  choices = c("Travel", "Placeholder"),
                   selected = "Travel"),
 
       # Select date range to be plotted
@@ -59,10 +55,10 @@ server <- function(input, output) {
     hist(abatch, main='Histogram w skali logarytmicznej dla nieznormalizowanych danych',
      xlab='log(Ekspresja)', ylab='Liczebność')
     # Display only if smoother is checked
-    if(input$smoother){
-      smooth_curve <- lowess(x = as.numeric(trend_data$date), y = trend_data$close, f = input$f)
-      lines(smooth_curve, col = "#E6553A", lwd = 3)
-    }
+    # if(input$smoother){
+    #   smooth_curve <- lowess(x = as.numeric(trend_data$date), y = trend_data$close, f = input$f)
+    #   lines(smooth_curve, col = "#E6553A", lwd = 3)
+    # }
   })
 
   # Pull in description of trend
