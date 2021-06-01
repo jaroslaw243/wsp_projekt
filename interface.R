@@ -10,11 +10,9 @@ library(affy)
 
 source("server.R")
 
-abatch <- ReadAffy(filenames = c("data/CL2001031606AA.CEL"))
-
 # Define UI
 ui <- fluidPage(theme = shinytheme("lumen"),
-  titlePanel("Google Trend Index"),
+  titlePanel("Przetwarzanie danych mikromacierzowych"),
   sidebarLayout(
     sidebarPanel(
 
@@ -28,7 +26,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                      min = "2007-01-01", max = "2017-07-31"),
 
       # Select whether to overlay smooth trend line
-      checkboxInput(inputId = "smoother", label = strong("Overlay smooth trend line"), value = FALSE),
+      checkboxInput(inputId = "log_scale", label = strong("Skala logarytmiczna"), value = TRUE),
 
       # Display only if the smoother is checked
       conditionalPanel(condition = "input.smoother == true",
