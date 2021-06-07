@@ -7,6 +7,7 @@ library(dplyr)
 library(readr)
 
 library(affy)
+library(gcrma)
 
 source("server.R")
 
@@ -17,9 +18,9 @@ ui <- fluidPage(theme = shinytheme("lumen"),
     sidebarPanel(
 
       # Select type of trend to plot
-      selectInput(inputId = "type", label = strong("Trend index"),
-                  choices = c("Travel", "Placeholder"),
-                  selected = "Travel"),
+      selectInput(inputId = "type", label = strong("Metoda normalizacji"),
+                  choices = c("RMA", "MAS", "GCRMA"),
+                  selected = "RMA"),
 
       # Select date range to be plotted
       dateRangeInput("date", strong("Date range"), start = "2007-01-01", end = "2017-07-31",
