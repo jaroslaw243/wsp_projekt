@@ -1,4 +1,4 @@
-
+setwd("C:/Users/Patryk/Desktop/Projekt")
             ui <- pageWithSidebar(
               
               

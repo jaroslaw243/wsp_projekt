@@ -42,7 +42,7 @@ Normalizacja_dd <- function(dane_znormalizowane, dane){
       updateSelectInput(session = session, inputId = "input.control.labels",
                         choices = c(sampleNames(dane)))
       
-      norm.alg <<- switch(input$normalization.algorithm,
+      dane_znormalizowane <<- switch(input$normalization.algorithm,
                           mas5 = "mas5",
                           rma = "rma",
                           gcmra ="gcmra")
