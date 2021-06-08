@@ -47,7 +47,7 @@ Normalizacja_dd <- function(dane_znormalizowane, dane){
                           rma = "rma",
                           gcmra ="gcmra")
       progress$inc(1/n, detail = "normalizing data")
-      dane.norm <<- Normalizacja_dd(dane_znormalizowane, data)
+      dane.norm <<- Normalizacja_dd(dane_znormalizowane, dane)
   
       
     })
