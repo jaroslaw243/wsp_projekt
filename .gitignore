@@ -1,6 +1,8 @@
 .idea
 wsp_projekt.Rproj
-.Rproj.user
-.Rhistory
-.RData
+*.Rproj.user
+*.Rhistory
+*.RData
 data
+*.csv
+*.xlsx

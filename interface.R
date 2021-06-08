@@ -5,10 +5,7 @@ library(shiny)
 library(shinythemes)
 library(dplyr)
 library(readr)
-
-library(affy)
-library(gcrma)
-library(hgu95av2)
+library(tools)
 
 source("server.R")
 
@@ -42,8 +39,8 @@ ui <- fluidPage(theme = shinytheme("lumen"),
     # Output: Description, lineplot, and reference
     mainPanel(
       plotOutput(outputId = "norm_hist", height = "300px"),
-      textOutput(outputId = "desc"),
-      tags$a(href = "https://www.google.com/finance/domestic_trends", "Source: Google Domestic Trends", target = "_blank")
+      fileInput("read_files", "Wybierz plik", multiple = TRUE,
+                 accept = c(".RData", ".csv", ".xlsx"))
     )
   )
 )
