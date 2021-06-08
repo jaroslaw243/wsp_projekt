@@ -1,11 +1,8 @@
-setwd("C:/Users/jarek/PycharmProjects/wsp_projekt")
-
 # Load packages
 library(shiny)
 library(shinythemes)
 library(dplyr)
 library(readr)
-library(tools)
 
 source("server.R")
 
