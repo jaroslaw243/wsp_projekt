@@ -23,7 +23,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-f
                               "Ward'a (1)" = "ward.D", "Ward'a (2)" = "ward.D2"),
                   selected = "complete", width = '50%'),
 
-      numericInput(inputId = "n_groups", label = strong("Liczba grup"), value = 1, min = 1, max = 4, step = 1,
+      numericInput(inputId = "n_groups", label = strong("Liczba grup"), value = 1, min = 1, step = 1,
                    width = '25%'),
       numericInput(inputId = "n_gen", label = strong("Liczba genów"), value = 10, min = 1, step = 1, width = '25%'),
 
