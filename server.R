@@ -1,6 +1,13 @@
 library(xlsx)
 library(affy)
 library(tools)
+library(dendextend)
+library(factoextra)
+library(ggdendro)
+library(colorspace)
+library(heatmaply)
+library(stringr)
+library(gplots)
 
 source("hc.R")
 

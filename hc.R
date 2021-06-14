@@ -1,13 +1,4 @@
 hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup){
-  #wczytywanie bibliotek
-  library(dendextend)
-  library(factoextra)
-  library(ggdendro)
-  library(colorspace)
-  library(heatmaply)
-  library(stringr)
-  library(gplots)
-
   data.matrix <- dane
   wariancje <- as.matrix(apply(data.matrix,1,var))
   wariancjeposort <- order(wariancje,decreasing = TRUE)

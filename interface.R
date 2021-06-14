@@ -14,7 +14,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-f
 
       selectInput(inputId = "dist_mes", label = strong("Miara odległości"),
                   choices = c("Euklidesowa" = "euclidean", "Maksimum" = "maximum", "Manhattan" = "manhattan",
-                              "Canberra" = "canberra", "Binarna" = "binary", "Minkowski" = "minkowski"),
+                              "Canberra" = "canberra", "Binarna" = "binary", "Minkowskiego" = "minkowski"),
                   selected = "euclidean", width = '50%'),
 
       selectInput(inputId = "conn_met", label = strong("Metoda połączenia"),
@@ -32,7 +32,7 @@ ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-f
     ),
 
     mainPanel(
-      plotOutput(outputId = "norm_hist", height = "300px"),
+      plotOutput(outputId = "norm_hist", height = "300px", width = "600px"),
       plotlyOutput(outputId = "clast_plot", height = "1000px", width = "1000px"),
       plotlyOutput(outputId = "dend", height = "1000px", width = "1000px"),
     )
