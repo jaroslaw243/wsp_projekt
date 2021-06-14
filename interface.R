@@ -7,12 +7,11 @@ library(readr)
 source("server.R")
 
 # Define UI
-ui <- fluidPage(theme = shinytheme("lumen"),
+ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-family: "Arial"};'))),
   titlePanel("Klasteryzacja danych mikromacierzowych"),
   sidebarLayout(
     sidebarPanel(
 
-      # Select type of trend to plot
       selectInput(inputId = "dist_mes", label = strong("Miara odległości"),
                   choices = c("Euklidesowa" = "euclidean", "Maksimum" = "maximum", "Manhattan" = "manhattan",
                               "Canberra" = "canberra", "Binarna" = "binary", "Minkowski" = "minkowski"),
@@ -32,7 +31,6 @@ ui <- fluidPage(theme = shinytheme("lumen"),
                 width = '50%')
     ),
 
-    # Output: Description, lineplot, and reference
     mainPanel(
       plotOutput(outputId = "norm_hist", height = "300px"),
       plotlyOutput(outputId = "clast_plot", height = "1000px", width = "1000px"),
