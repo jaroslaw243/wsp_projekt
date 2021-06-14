@@ -8,36 +8,35 @@ source("server.R")
 
 # Define UI
 ui <- fluidPage(theme = shinytheme("lumen"),
-  titlePanel("Przetwarzanie danych mikromacierzowych"),
+  titlePanel("Klasteryzacja danych mikromacierzowych"),
   sidebarLayout(
     sidebarPanel(
 
       # Select type of trend to plot
-      selectInput(inputId = "type", label = strong("Metoda normalizacji"),
-                  choices = c("RMA", "MAS", "GCRMA"),
-                  selected = "RMA"),
+      selectInput(inputId = "dist_mes", label = strong("Miara odległości"),
+                  choices = c("Euklidesowa" = "euclidean", "Maksimum" = "maximum", "Manhattan" = "manhattan",
+                              "Canberra" = "canberra", "Binarna" = "binary", "Minkowski" = "minkowski"),
+                  selected = "euclidean", width = '50%'),
 
-      # Select date range to be plotted
-      dateRangeInput("date", strong("Date range"), start = "2007-01-01", end = "2017-07-31",
-                     min = "2007-01-01", max = "2017-07-31"),
+      selectInput(inputId = "conn_met", label = strong("Metoda połączenia"),
+                  choices = c("Pojedyncze" = "single", "Kompletne" = "complete", "Srednie" = "average",
+                              "Centroidalne" = "centroid", "McQuitty'ego" = "mcquitty", "Medianowe" = "median",
+                              "Ward'a (1)" = "ward.D", "Ward'a (2)" = "ward.D2"),
+                  selected = "complete", width = '50%'),
 
-      # Select whether to overlay smooth trend line
-      checkboxInput(inputId = "log_scale", label = strong("Skala logarytmiczna"), value = TRUE),
+      numericInput(inputId = "n_groups", label = strong("Liczba grup"), value = 1, min = 1, max = 4, step = 1,
+                   width = '25%'),
+      numericInput(inputId = "n_gen", label = strong("Liczba genów"), value = 10, min = 1, step = 1, width = '25%'),
 
-      # Display only if the smoother is checked
-      conditionalPanel(condition = "input.smoother == true",
-                       sliderInput(inputId = "f", label = "Smoother span:",
-                                   min = 0.01, max = 1, value = 0.67, step = 0.01,
-                                   animate = animationOptions(interval = 100)),
-                       HTML("Higher values give more smoothness.")
-      )
+      fileInput("read_files", "Wybierz plik", multiple = FALSE, accept = c(".RData", ".csv", ".xlsx"),
+                width = '50%')
     ),
 
     # Output: Description, lineplot, and reference
     mainPanel(
       plotOutput(outputId = "norm_hist", height = "300px"),
-      fileInput("read_files", "Wybierz plik", multiple = TRUE,
-                 accept = c(".RData", ".csv", ".xlsx"))
+      plotlyOutput(outputId = "clast_plot", height = "1000px", width = "1000px"),
+      plotlyOutput(outputId = "dend", height = "1000px", width = "1000px"),
     )
   )
 )

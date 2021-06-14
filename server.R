@@ -2,6 +2,8 @@ library(xlsx)
 library(affy)
 library(tools)
 
+source("hc.R")
+
 # Define server function
 server <- function(input, output) {
   observeEvent(input$read_files, {
@@ -19,11 +21,16 @@ server <- function(input, output) {
       data_norm <- data_norm[,-1]
     }
 
+    clast_data <- hc(data_norm, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)
+
     output$norm_hist <- renderPlot({
       par(mar = c(4, 4, 1, 1))
-      plotDensity(data_norm, main = 'Histogram dla znormalizowanych danych',
+      plotDensity(data_norm, main = 'Histogram dla wczytanych danych',
                   xlab = 'Ekspresja', ylab = 'Liczebnosc')
     })
+
+    output$clast_plot <- renderPlotly({clast_data[[1]]})
+    output$dend <- renderPlotly({clast_data[[2]]})
   })
 
 }
