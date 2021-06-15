@@ -8,9 +8,11 @@ library(colorspace)
 library(heatmaply)
 library(stringr)
 library(gplots)
+library(officer)
 
 source("hc.R")
 source("pca_genes.R")
+source("raport.R")
 
 # Define server function
 server <- function(input, output) {
@@ -29,11 +31,10 @@ server <- function(input, output) {
       data_norm <- data_norm[,-1]
     }
 
-    pca_data <- pca_genes(data_norm)
-    clast_data <- hc(data_norm, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)
+    pca_data <<- pca_genes(data_norm)
+    clast_data <<- hc(data_norm, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)
 
     output$norm_hist <- renderPlot({
-      par(mar = c(4, 4, 1, 1))
       plotDensity(data_norm, main = 'Histogram dla wczytanych danych',
                   xlab = 'Ekspresja', ylab = 'Liczebnosc')
     })
@@ -42,6 +43,12 @@ server <- function(input, output) {
     output$pca_ggplot <- renderPlot({pca_data[[1]]})
     output$clast_plot <- renderPlotly({clast_data[[1]]})
     output$dend <- renderPlotly({clast_data[[2]]})
+
+    output$make_report <- downloadHandler(filename = "Raport.pptx", content = slide("Raport.pptx"))
+  })
+
+  observeEvent(input$make_report, {
+    slide(data.frame(a = 1:5, b = 6:10, c = 11:15), pca_data[[2]], pca_data[[1]], pca_data[[2]], pca_data[[1]])
   })
 
 }
