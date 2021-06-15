@@ -1,18 +1,36 @@
-setwd("C:/Users/Patryk/Desktop/Projekt")
-            ui <- pageWithSidebar(
-              
-              
-              headerPanel("Apka grupa wtorkowa"),
-              
+
+setwd("C:/Users/Patryk/Desktop/Projekt/nowe")
+library(shiny)
+library(dplyr)
+library(readr)
+library(shinythemes)
+
+
+source("server.R")
+
+
+ui <- fluidPage(theme = shinytheme("superhero"),
+                titlePanel("Apka grupa wtorkowa"),
+                sidebarLayout(
+                  tabsetPanel(
+                    
+                    # Select type of trend to plot
+                   selectInput(inputId = "type", label = strong("Wybierz rodzaj normalizacji"),
+                              choices = c("MAS", "RMA", "GCRMA"))),
+                   
+                    
+                    
+                    
+                  mainPanel(
+                     plotOutput(outputId = "histogramZdanych", height = "250px"),
+                     fileInput("read_files", "Wybierz plik", multiple = TRUE,
+                               accept = c(".RData", ".csv", ".xlsx")
+                   ),
+                  
+                  
              
-              sidebarPanel(radioButtons("normalizing data", "Wybierz rodzaj normalizacji",
-                                        c("MAS-5" = "mas5",
-                                          "RMA" = "rma",
-                                          "GCRMA"="gcmra"))),
-              
-              # Main panel for displaying outputs ----
-              mainPanel( fileInput("read.affymetrix.files", "Wybierz plik",
-                                   multiple = TRUE,
-                                   accept = c(".CEL", ".cel")))
-            )
-            #shinyApp(ui, shinyServer)
+                )))
+
+
+
+shinyApp(ui = ui, server = server)

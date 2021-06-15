@@ -1,57 +1,33 @@
-library(shiny)
+# Przerobiony kod, dodane funkcjonalnoci generowania wykresu.
 
+
+library(affy)
+library(tools)
 .GlobalEnv$dane <- 0
 .GlobalEnv$dane_znormalizowane <- 0
 
-
-Normalizacja_dd <- function(dane_znormalizowane, dane){
-  if(dane_znormalizowane == "mas5"){
-    dane.norm = simpleaffy::call.exprs(dane, "mas5")
-  } 
-  else if(dane_znormalizowane == "gcmra"){
-    dane.norm = simpleaffy::call.exprs(dane, "gcmra")
-  } 
-  
-  
-  else{
-    dane.norm = simpleaffy::call.exprs(dane, "rma")
-  }
-  return(dane.norm)
-}
-
-
-  shinyServer(function(input, output, session) {
+# Funkcja serwerowa
+server <- function(input, output) {
+  observeEvent(input$read_files, {
+    if (file_ext(input$read_files$datapath) == 'RData') {
+      load(input$read_files$datapath)
+    }
+    else if (file_ext(input$read_files$datapath) == 'csv'){
+     dznormalizowane <- read.csv(input$read_files$datapath, stringsAsFactors = FALSE)
+      rownames( dznormalizowane ) <-  dznormalizowane [, 1]
+      dznormalizowane  <-  dznormalizowane [,-1]
+    }
+    else{
+      dznormalizowane  <- read.xlsx(input$read_files$datapath, 1, stringsAsFactors = FALSE)
+      rownames( dznormalizowane ) <-  dznormalizowane [, 1]
+      dznormalizowane  <-  dznormalizowane [,-1]
+    }
     
-   
-    
-    observeEvent(input$read.affymetrix.files, {
-      
-      progress <- shiny::Progress$new()
-      on.exit(progress$close())
-      progress$set(message = "Wczytuje dane", value = 0)
-      n <- 4
-      progress$inc(1/n, detail = "reading data")
-      name <- input$read.affymetrix.files$name
-      datapath <- input$read.affymetrix.files$datapath
-      dane <<- affy::read.affybatch(datapath)
-      sampleNames(dane) <<- name
-      sampleNames(dane) <<- sub("\\.CEL$", "", sampleNames(dane))
-      num.probes <<- length(sampleNames(dane))
-      
-      progress$inc(1/n, detail = "aktualizacja")
-      updateSelectInput(session = session, inputId = "input.control.labels",
-                        choices = c(sampleNames(dane)))
-      
-      dane_znormalizowane <<- switch(input$normalization.algorithm,
-                          mas5 = "mas5",
-                          rma = "rma",
-                          gcmra ="gcmra")
-      progress$inc(1/n, detail = "normalizing data")
-      dane.norm <<- Normalizacja_dd(dane_znormalizowane, dane)
-  
-      
+    output$histogramZdanych <- renderPlot({
+      par(mar = c(4, 4, 1, 1))
+      plotDensity( dznormalizowane , main = 'Histogram z danych',
+                  xlab = 'Ekspresja', ylab = 'Liczebnosc')
     })
-    
-
-    
   })
+  
+}
