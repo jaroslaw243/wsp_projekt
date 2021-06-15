@@ -10,6 +10,7 @@ library(stringr)
 library(gplots)
 
 source("hc.R")
+source("pca_genes.R")
 
 # Define server function
 server <- function(input, output) {
@@ -28,6 +29,7 @@ server <- function(input, output) {
       data_norm <- data_norm[,-1]
     }
 
+    pca_data <- pca_genes(data_norm)
     clast_data <- hc(data_norm, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)
 
     output$norm_hist <- renderPlot({
@@ -36,6 +38,8 @@ server <- function(input, output) {
                   xlab = 'Ekspresja', ylab = 'Liczebnosc')
     })
 
+    output$pca_screeplot <- renderPlot({pca_data[[2]]})
+    output$pca_ggplot <- renderPlot({pca_data[[1]]})
     output$clast_plot <- renderPlotly({clast_data[[1]]})
     output$dend <- renderPlotly({clast_data[[2]]})
   })

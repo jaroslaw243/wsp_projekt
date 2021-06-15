@@ -33,6 +33,8 @@ ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-f
 
     mainPanel(
       plotOutput(outputId = "norm_hist", height = "300px", width = "600px"),
+      plotOutput(outputId = "pca_screeplot", height = "300px", width = "600px"),
+      plotOutput(outputId = "pca_ggplot", height = "300px", width = "600px"),
       plotlyOutput(outputId = "clast_plot", height = "1000px", width = "1000px"),
       plotlyOutput(outputId = "dend", height = "1000px", width = "1000px"),
     )
