@@ -27,7 +27,6 @@ filtMinAndControl <- function (un_filt_data){
   return(filt_data)
 }
 
-# Define server function
 server <- function(input, output) {
   observeEvent(input$read_files, {
     if (file_ext(input$read_files$datapath) == 'RData') {
@@ -44,7 +43,7 @@ server <- function(input, output) {
       data_norm <- data_norm[,-1]
     }
 
-    data_filtered <<- filtMinAndControl(data_norm)
+    data_filtered <- filtMinAndControl(data_norm)
 
     pca_data <<- pca_genes(data_filtered)
     clast_data <<- hc(data_filtered, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)

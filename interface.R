@@ -1,4 +1,3 @@
-# Load packages
 library(shiny)
 library(shinythemes)
 library(dplyr)
@@ -6,7 +5,6 @@ library(readr)
 
 source("server.R")
 
-# Define UI
 ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-family: "Arial"};'))),
   titlePanel("Klasteryzacja danych mikromacierzowych"),
   sidebarLayout(
@@ -42,5 +40,4 @@ ui <- fluidPage(theme = shinytheme("lumen"),tags$head(tags$style(HTML('* {font-f
   )
 )
 
-# Create Shiny object
 shinyApp(ui = ui, server = server)
