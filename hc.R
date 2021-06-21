@@ -3,7 +3,7 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup) {
   wariancje <- as.matrix(apply(data.matrix, 1, var))
   wariancjeposort <- order(wariancje, decreasing = TRUE)
 
-  daneHeatmapa <<- data.matrix[wariancjeposort[1:liczba_gen],]
+  daneHeatmapa <- data.matrix[wariancjeposort[1:liczba_gen],]
 
   skala <- (scale(t(daneHeatmapa)))
 
