@@ -9,6 +9,8 @@ library(heatmaply)
 library(stringr)
 library(gplots)
 library(officer)
+library(hgu95av2)
+library(hgu95av2cdf)
 
 source("hc.R")
 source("pca_genes.R")

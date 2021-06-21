@@ -1,7 +1,7 @@
-hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup){
+hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup) {
   data.matrix <- dane
-  wariancje <- as.matrix(apply(data.matrix,1,var))
-  wariancjeposort <- order(wariancje,decreasing = TRUE)
+  wariancje <- as.matrix(apply(data.matrix, 1, var))
+  wariancjeposort <- order(wariancje, decreasing = TRUE)
 
   daneHeatmapa <<- data.matrix[wariancjeposort[1:liczba_gen],]
 
@@ -20,25 +20,27 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup){
 
   klastry <- p4
   paleta <- c()
-  for(w in 1:liczba_grup){
-    paleta <- c(paleta,(rc[w]))
+  for (w in 1:liczba_grup) {
+    paleta <- c(paleta, (rc[w]))
   }
 
   names(paleta) <- c(1:liczba_grup)
 
   p <- heatmaply(daneHeatmapa, dendrogram = c("both"), dist_method = miara_odl, hclust_method = metoda_polacz,
-                 show_dendrogram = c(TRUE, TRUE), Colv = hc, row_dend_left=F, label_names = c("Gen", "Probka"," Wartosc"),
-                 margins = c(60,100,40,20),
+                 show_dendrogram = c(TRUE, TRUE), Colv = hc, row_dend_left = F, label_names = c("Gen", "Probka", " Wartosc"),
+                 margins = c(60, 100, 40, 20),
                  #grid_color = "white",
                  #grid_width = 0.00001,
-                 hide_colorbar = T, branches_lwd = 0.1, col_side_colors = podgrupy, col_side_palette = paleta,
-                 trace='none'
+                 hide_colorbar = F, branches_lwd = 0.1, col_side_colors = podgrupy, col_side_palette = paleta,
+                 trace = 'none', labRow = unlist(mget(rownames(daneHeatmapa), hgu95av2SYMBOL, ifnotfound='???'))
   )
 
-  png('hmp_temp.png', width=2000, height=2000, res=250)
-  heatmap(as.matrix(daneHeatmapa), keep.dendro = TRUE,
-                             distfun = function(x) dist(x, method = miara_odl),
-                             hclustfun = function(x2) hclust(x2, method = metoda_polacz))
+  png('hmp_temp.png', width = 2000, height = 2000, res = 250)
+  heatmap.2(as.matrix(daneHeatmapa), dendrogram = c("both"),
+            distfun = function(x) dist(x, method = miara_odl),
+            hclustfun = function(x2) hclust(x2, method = metoda_polacz), scale = "none",
+            col = bluered(100), trace = "none", density.info = "none",
+            labRow = unlist(mget(rownames(daneHeatmapa), hgu95av2SYMBOL, ifnotfound='???')))
   dev.off()
 
   p_2 <- external_img('./hmp_temp.png')
