@@ -19,5 +19,5 @@ pca_genes <- function(dataNormalized){
   p1 <- p1 + geom_point() + ggtitle("Wykres PCA")
 
   p2 <- fviz_eig(pca)
-  return(list(p1, p2))
+  return(list(p1, p2, df_out))
 }

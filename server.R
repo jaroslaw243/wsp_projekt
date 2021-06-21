@@ -46,7 +46,7 @@ server <- function(input, output) {
   })
 
   observeEvent(input$make_report, {
-    slide(data.frame(a = 1:5, b = 6:10, c = 11:15), pca_data[[2]], pca_data[[1]], clast_data[[3]], clast_data[[4]])
+    slide(pca_data[[3]], pca_data[[2]], pca_data[[1]], clast_data[[3]], clast_data[[4]])
   })
 
 }
