@@ -6,13 +6,7 @@ library(hgu95av2cdf)
 library(gahgu95av2.db)
 library(gcrm)
 library(tkWidgets)
-
-minMaxFilter <- function(arg)
-{
-  # tutaj będzie musiał powstać kod odpowiedzialny za filtrowanie
-  # sond kontrolnych oraz 5% sond, o najmniejszej i największej
-  # średniej ekspresji
-}
+library(hgu95av2.db)
 
 setwd("C:/Users/domin/Downloads/CEL")
 
@@ -56,16 +50,5 @@ Symbols = unlist(mget(probes, hgu95av2SYMBOL, ifnotfound=NA))
 Entrez_IDs = unlist(mget(probes, hgu95av2ENTREZID, ifnotfound=NA))
 rma=cbind(probes,Symbols,Entrez_IDs,rma)
 write.table(rma, file = "annotation.txt", quote = FALSE, sep = "\t", row.names = FALSE, col.names = TRUE)
-data_final <- ExpressionSet(assayData=rma)
-multiget(geneNames(data_manfiltered)[330:340], env=hgu95All)
 
-
-head(ls("package:hgu95av2"))
-
-k <- head(keys(hgu95av2.db,keytype="PROBEID"))
-select(hgu95av2, keys=k, columns=c("SYMBOL","GENENAME"), keytype="PROBEID")
-
-anno_palmieri <- AnnotationDbi::select(hgu95av2,
-                                       keys = (featureNames(palmieri_manfiltered)),
-                                       columns = c("SYMBOL", "ENTREZID"),
-                                       keytype="ENTREZID")
+dataNormalized = data_manfiltered
