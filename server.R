@@ -11,10 +11,21 @@ library(gplots)
 library(officer)
 library(hgu95av2)
 library(hgu95av2cdf)
+library(doBy)
 
 source("hc.R")
 source("pca_genes.R")
 source("raport.R")
+
+filtMinAndControl <- function (un_filt_data){
+  un_filt_data_means <- rowMeans(un_filt_data)
+  un_filt_data_means_mink <- which.minn(un_filt_data_means, round(length(un_filt_data_means)*0.05))
+  filt_data <- un_filt_data[-un_filt_data_means_mink,]
+
+  filt_data <- filt_data[!grepl("AFFX", rownames(filt_data)),]
+
+  return(filt_data)
+}
 
 # Define server function
 server <- function(input, output) {
@@ -33,8 +44,10 @@ server <- function(input, output) {
       data_norm <- data_norm[,-1]
     }
 
-    pca_data <<- pca_genes(data_norm)
-    clast_data <<- hc(data_norm, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)
+    data_filtered <<- filtMinAndControl(data_norm)
+
+    pca_data <<- pca_genes(data_filtered)
+    clast_data <<- hc(data_filtered, input$n_gen, input$dist_mes, input$conn_met, input$n_groups)
 
     output$norm_hist <- renderPlot({
       plotDensity(data_norm, main = 'Histogram dla wczytanych danych',

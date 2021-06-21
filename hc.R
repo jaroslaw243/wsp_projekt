@@ -7,7 +7,7 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup) {
 
   skala <- (scale(t(daneHeatmapa)))
 
-  #klasteryzacja
+  # klasteryzacja
   d <- dist(skala, method = miara_odl)
   hc <- hclust(d, method = metoda_polacz)
 
@@ -17,6 +17,17 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup) {
 
   p4 <- ggplotly(klastry)
   klastry_2 <- klastry
+
+  for (i in 2:(length(p4[["x"]][["data"]])/2) ){
+    p4[["x"]][["data"]][[i]][["name"]] <- str_remove_all(p4[["x"]][["data"]][[i]][["name"]], '[(,1,NA)]')
+    p4[["x"]][["data"]][[i]][["legendgroup"]] <- str_remove_all(p4[["x"]][["data"]][[i]][["name"]], '[(,1,NA)]')
+
+  }
+  for (i in ((length(p4[["x"]][["data"]])/2)+1): length(p4[["x"]][["data"]])){
+    p4[["x"]][["data"]][[i]][["showlegend"]] <- F
+    p4[["x"]][["data"]][[i]][["legendgroup"]] <- str_remove_all(p4[["x"]][["data"]][[i]][["name"]], '[(,1,NA)]')
+    p4[["x"]][["data"]][[liczba_grup]][["legendgroup"]] <- '1'; p4[["x"]][["data"]][[liczba_grup]][["name"]] <- '1'
+  }
 
   klastry <- p4
   paleta <- c()
