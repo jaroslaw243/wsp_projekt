@@ -40,7 +40,7 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup) {
             distfun = function(x) dist(x, method = miara_odl),
             hclustfun = function(x2) hclust(x2, method = metoda_polacz), scale = "none",
             col = bluered(100), trace = "none", density.info = "none",
-            labRow = unlist(mget(rownames(daneHeatmapa), hgu95av2SYMBOL, ifnotfound='???')))
+            labRow = unlist(mget(rownames(daneHeatmapa), hgu95av2SYMBOL, ifnotfound='???')), cexCol = 0.7, srtCol = 30)
   dev.off()
 
   p_2 <- external_img('./hmp_temp.png')
