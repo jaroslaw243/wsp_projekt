@@ -6,4 +6,6 @@ wsp_projekt.Rproj
 data
 *.csv
 *.xlsx
-*.pptx
+Raport.pptx
+.~lock.Raport.pptx#
+*.png

@@ -3,21 +3,20 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup){
   wariancje <- as.matrix(apply(data.matrix,1,var))
   wariancjeposort <- order(wariancje,decreasing = TRUE)
 
-  daneHeatmapa <- data.matrix[wariancjeposort[1:liczba_gen],]
+  daneHeatmapa <<- data.matrix[wariancjeposort[1:liczba_gen],]
 
   skala <- (scale(t(daneHeatmapa)))
 
   #klasteryzacja
   d <- dist(skala, method = miara_odl)
-  hc <- hclust(d, method =metoda_polacz)
-  # plot(hc)
+  hc <- hclust(d, method = metoda_polacz)
 
   rc <- colorspace::rainbow_hcl(liczba_grup)
   podgrupy <- cutree(hc, k = liczba_grup)
   klastry <- fviz_cluster(list(data = skala, cluster = podgrupy), palette = rc)
 
-  klastry
   p4 <- ggplotly(klastry)
+  klastry_2 <- klastry
 
   klastry <- p4
   paleta <- c()
@@ -36,5 +35,13 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup){
                  trace='none'
   )
 
-  return(list(klastry, p))
+  png('hmp_temp.png', width=2000, height=2000, res=250)
+  heatmap(as.matrix(daneHeatmapa), keep.dendro = TRUE,
+                             distfun = function(x) dist(x, method = miara_odl),
+                             hclustfun = function(x2) hclust(x2, method = metoda_polacz))
+  dev.off()
+
+  p_2 <- external_img('./hmp_temp.png')
+
+  return(list(klastry, p, klastry_2, p_2))
 }
