@@ -40,8 +40,6 @@ hc <- function(dane, liczba_gen, miara_odl, metoda_polacz, liczba_grup) {
   p <- heatmaply(daneHeatmapa, dendrogram = c("both"), dist_method = miara_odl, hclust_method = metoda_polacz,
                  show_dendrogram = c(TRUE, TRUE), Colv = hc, row_dend_left = F, label_names = c("Gen", "Probka", " Wartosc"),
                  margins = c(60, 100, 40, 20),
-                 #grid_color = "white",
-                 #grid_width = 0.00001,
                  hide_colorbar = F, branches_lwd = 0.1, col_side_colors = podgrupy, col_side_palette = paleta,
                  trace = 'none', labRow = unlist(mget(rownames(daneHeatmapa), hgu95av2SYMBOL, ifnotfound='???'))
   )
